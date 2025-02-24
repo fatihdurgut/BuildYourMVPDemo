@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      
+    - name: Build Docker images
+      if: github.ref == 'refs/heads/main'
+      run: |
+        docker-compose build
+        
+    # Uncomment these steps if you want to push to a container registry
+    # - name: Login to Container Registry
+    #   if: github.ref == 'refs/heads/main'
+    #   uses: docker/login-action@v2
+    #   with:
+    #     # Choose your registry:
+    #     # registry: ghcr.io  # For GitHub Container Registry
+    #     # registry: docker.io  # For Docker Hub
+    #     username: ${{ secrets.REGISTRY_USERNAME }}
+    #     password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    # - name: Push Docker images
+    #   if: github.ref == 'refs/heads/main'
+    #   run: docker-compose push
