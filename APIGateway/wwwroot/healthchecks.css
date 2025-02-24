@@ -1,0 +1,60 @@
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --border-color: #4CAF50;
+    --success-color: #4CAF50;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.navbar {
+    background-color: #121212 !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table {
+    color: var(--text-color);
+}
+
+.table-bordered {
+    border-color: var(--border-color);
+}
+
+.badge-success {
+    background-color: var(--success-color);
+}
+
+.badge-warning {
+    background-color: var(--warning-color);
+}
+
+.badge-danger {
+    background-color: var(--danger-color);
+}
+
+.card {
+    background-color: #2d2d2d;
+    border-color: var(--border-color);
+}
+
+.card-header {
+    background-color: #121212;
+    border-bottom-color: var(--border-color);
+}
+
+.healthcheck-status-healthy {
+    color: var(--success-color);
+}
+
+.healthcheck-status-unhealthy {
+    color: var(--danger-color);
+}
+
+.healthcheck-status-degraded {
+    color: var(--warning-color);
+}

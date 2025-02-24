@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.Build.Sql.Sdk/1.0.0">
+  <PropertyGroup>
+    <Name>Database</Name>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <ModelCollation>1033, CI</ModelCollation>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Database</OutputType>
+    <RootNamespace>Database</RootNamespace>
+    <SqlServerVersion>Sql150</SqlServerVersion>
+    <DefaultConnectionString>Data Source=FATIH-PC\SQLEXPRESS;Initial Catalog=MyDatabase;Integrated Security=True</DefaultConnectionString>
+    <ProjectGuid>{00000000-0000-0000-0000-000000000000}</ProjectGuid>
+  </PropertyGroup>
+</Project>

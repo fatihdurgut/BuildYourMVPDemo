@@ -1,0 +1,70 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "YourStrong@Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+      - ./Database/Scripts:/docker-entrypoint-initdb.d
+    networks:
+      - contoso-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Backend/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=ContosoOutdoors;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+    ports:
+      - "7242:443"
+      - "5242:80"
+    depends_on:
+      - sqlserver
+    networks:
+      - contoso-network
+
+  apigateway:
+    build:
+      context: .
+      dockerfile: APIGateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - BackendApi__BaseUrl=https://backend:443
+    ports:
+      - "7108:443"
+      - "5108:80"
+    depends_on:
+      - backend
+    networks:
+      - contoso-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ApiGateway__BaseUrl=https://apigateway:443
+    ports:
+      - "7155:443"
+      - "5155:80"
+    depends_on:
+      - apigateway
+    networks:
+      - contoso-network
+
+networks:
+  contoso-network:
+    driver: bridge
+
+volumes:
+  sqlserverdata:

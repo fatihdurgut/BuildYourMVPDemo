@@ -1,0 +1,16 @@
+/* Frontend.styles.css */
+.footer[b-4hvo4zhnjb] {
+    margin-top: auto;
+    flex-shrink: 0;
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: var(--footer-height) !important;
+    white-space: nowrap;
+    z-index: 1030 !important;
+}
+
+/* Ensure content doesn't get hidden behind fixed footer */
+main[b-4hvo4zhnjb] {
+    margin-bottom: calc(var(--footer-height) + 2rem) !important;
+}

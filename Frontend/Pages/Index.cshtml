@@ -1,0 +1,172 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Contoso Outdoors";
+}
+
+<div class="hero-section">
+    <div class="container">
+        <h1 class="hero-title">Adventure Begins with the Right Gear</h1>
+        <p class="hero-subtitle">Discover top-quality outdoor equipment for your next journey</p>
+        <a href="#products" class="btn btn-primary">Shop Now</a>
+    </div>
+</div>
+
+<div class="container mb-5 pb-5">
+    <div class="product-grid" id="products">
+        @if (Model.IsLoading)
+        {
+            <div class="text-center my-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3">Loading products...</p>
+            </div>
+        }
+        else if (Model.HasError)
+        {
+            <div class="alert alert-danger" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                @Model.ErrorMessage
+                <button type="button" class="btn btn-link" onclick="window.location.reload()">
+                    <i class="bi bi-arrow-clockwise"></i> Try Again
+                </button>
+            </div>
+        }
+        else if (!Model.ProductsByCategory.Any())
+        {
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                No products available at the moment. Please check back later.
+            </div>
+        }
+        else
+        {
+            @if (Model.ProductsByCategory.TryGetValue(1, out var tents))
+            {
+                <div class="product-category" id="tents">
+                    <h2 class="section-title">Premium Tents</h2>
+                    <div class="row">
+                        @foreach (var product in tents)
+                        {
+                            <div class="col-md-4">
+                                <div class="card product-card">
+                                    <div class="card-img-wrapper">
+                                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name"
+                                             onerror="this.src='/images/placeholder.png'">
+                                        @if (product.StockQuantity <= 5)
+                                        {
+                                            <span class="badge bg-warning stock-badge">Only @product.StockQuantity left!</span>
+                                        }
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@product.Name</h5>
+                                        <p class="card-text description">@product.Description</p>
+                                        <p class="card-text price-tag">$@product.Price.ToString("F2")</p>
+                                        <button class="btn btn-primary buy-button" 
+                                                data-product-id="@product.ProductId"
+                                                data-product-name="@product.Name"
+                                                data-product-price="@product.Price"
+                                                data-product-image="@product.ImageUrl"
+                                                @(product.StockQuantity == 0 ? "disabled" : "")>
+                                            @(product.StockQuantity == 0 ? "Out of Stock" : "Add to Cart")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (Model.ProductsByCategory.TryGetValue(2, out var backpacks))
+            {
+                <div class="product-category" id="backpacks">
+                    <h2 class="section-title">Durable Backpacks</h2>
+                    <div class="row">
+                        @foreach (var product in backpacks)
+                        {
+                            <div class="col-md-4">
+                                <div class="card product-card">
+                                    <div class="card-img-wrapper">
+                                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name"
+                                             onerror="this.src='/images/placeholder.png'">
+                                        @if (product.StockQuantity <= 5)
+                                        {
+                                            <span class="badge bg-warning stock-badge">Only @product.StockQuantity left!</span>
+                                        }
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@product.Name</h5>
+                                        <p class="card-text description">@product.Description</p>
+                                        <p class="card-text price-tag">$@product.Price.ToString("F2")</p>
+                                        <button class="btn btn-primary buy-button"
+                                                data-product-id="@product.ProductId"
+                                                data-product-name="@product.Name"
+                                                data-product-price="@product.Price"
+                                                data-product-image="@product.ImageUrl"
+                                                @(product.StockQuantity == 0 ? "disabled" : "")>
+                                            @(product.StockQuantity == 0 ? "Out of Stock" : "Add to Cart")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            @if (Model.ProductsByCategory.TryGetValue(3, out var clothing))
+            {
+                <div class="product-category" id="clothing">
+                    <h2 class="section-title">Essential Gear</h2>
+                    <div class="row">
+                        @foreach (var product in clothing)
+                        {
+                            <div class="col-md-4">
+                                <div class="card product-card">
+                                    <div class="card-img-wrapper">
+                                        <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name"
+                                             onerror="this.src='/images/placeholder.png'">
+                                        @if (product.StockQuantity <= 5)
+                                        {
+                                            <span class="badge bg-warning stock-badge">Only @product.StockQuantity left!</span>
+                                        }
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@product.Name</h5>
+                                        <p class="card-text description">@product.Description</p>
+                                        <p class="card-text price-tag">$@product.Price.ToString("F2")</p>
+                                        <button class="btn btn-primary buy-button"
+                                                data-product-id="@product.ProductId"
+                                                data-product-name="@product.Name"
+                                                data-product-price="@product.Price"
+                                                data-product-image="@product.ImageUrl"
+                                                @(product.StockQuantity == 0 ? "disabled" : "")>
+                                            @(product.StockQuantity == 0 ? "Out of Stock" : "Add to Cart")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Add loading animation for images only when needed
+        document.querySelectorAll('.card-img-top').forEach(img => {
+            if (!img.complete) {
+                img.addEventListener('load', function() {
+                    this.classList.add('loaded');
+                });
+            } else {
+                img.classList.add('loaded');
+            }
+        });
+    </script>
+}
